@@ -17,12 +17,14 @@ library(dplyr)
 merged_data <- gdp_52_67 %>%
   full_join(le_52_67)
 ```
+
+Calculate the GDP per capita by dividing the GDP(gdp) column by the population(pop) column
 ```{r}
 # calculating GDP per capita
 merged_data$gdpPercap <- merged_data$gdp/ merged_data$pop
 ```
 
-
+Visualize the data with line graphs
 ```{r}
 #visualizing life expectancy and gdp per capita for Canada in the 1950s and 60s
 library(ggplot2)
