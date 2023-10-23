@@ -1,0 +1,58 @@
+---
+title: "570_reproducibility"
+output: html_document
+date: "2023-10-20"
+---
+
+```{r}
+#importing the data
+library(readr)
+gdp_52_67 <- read.csv("inputs/gdp_52-67.csv")
+le_52_67 <- read.csv("inputs/le_52-67.csv")
+```
+
+```{r}
+#Merging the data based on column names
+library(dplyr)
+merged_data <- gdp_52_67 %>%
+  full_join(le_52_67)
+```
+```{r}
+# calculating GDP per capita
+merged_data$gdpPercap <- merged_data$gdp/ merged_data$pop
+```
+
+
+```{r}
+#visualizing life expectancy and gdp per capita for Canada in the 1950s and 60s
+library(ggplot2)
+
+#filtering the data for years 50-60s and Canada
+filtered_data <- merged_data %>%
+  filter(country == "Canada", year >= 1950, year <= 1969)
+
+#creating a line plot for gdp per Capita and year
+gdpPercap_plot <- ggplot(filtered_data, aes(x = year, y = gdpPercap)) +
+  geom_line(color = "blue") +
+  labs(y = "GDP per Capita") +
+  ggtitle ("GDP per Capita in Canada in the 1950s and 1960s")
+
+print(gdpPercap_plot)
+
+#creating a line plot for life Expectancy and year
+lifeExp_plot <- ggplot(filtered_data, aes(x = year, y = lifeExp)) +
+  geom_line(color = "dark green") +
+  labs(y = "Life Expectancy") +
+  ggtitle ("Life Expectancy in Canada in the 1950s and 1960s")
+
+print(lifeExp_plot)
+```
+From the graphs above, it is evident that both GDP per capita and life expectancy has increased over time in Canda from 1950 -1970. Both increase at a steady rate until 1965, in which life expectancy becomes less steep and GDP per Capita becomes more steep. 
+
+```{r}
+#regressing life expectancy on GDP per Capita
+model <- lm(lifeExp ~ gdpPercap, data = filtered_data)
+
+summary(model)
+```
+
