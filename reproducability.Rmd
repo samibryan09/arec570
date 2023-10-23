@@ -1,8 +1,14 @@
 ---
 title: "570_reproducibility"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 date: "2023-10-20"
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ```{r}
 #importing the data
@@ -28,6 +34,7 @@ Visualize the data with line graphs
 ```{r}
 #visualizing life expectancy and gdp per capita for Canada in the 1950s and 60s
 library(ggplot2)
+library(stargazer)
 
 #filtering the data for years 50-60s and Canada
 filtered_data <- merged_data %>%
